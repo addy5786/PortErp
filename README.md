@@ -1,167 +1,183 @@
-#Port Management Enterprise Resource Planning (ERP) System
+# 🚢 Port Management Enterprise Resource Planning (ERP) System
 
-A robust, web-based multi-role application designed to digitise, streamline, and centralise end-to-end commercial port operations. This platform replaces manual and siloed workflows with a unified, role-driven interface ensuring data integrity, high operational visibility, and regulatory traceability.
+A robust, web-based, multi-role application designed to digitize, streamline, and centralize end-to-end commercial port operations. This platform replaces manual and siloed workflows with a unified, role-driven interface that supports data integrity, operational visibility, and regulatory traceability.
 
-📋 Table of Contents
+## 📋 Table of Contents
 
-Project Overview
+- [Project Overview](#-project-overview)
+- [Operational Modules](#-operational-modules)
+- [User Roles and Access Control](#-user-roles-and-access-control-rbac)
+- [Database Design](#-database-design-summary)
+- [Technology Stack](#-technology-stack-and-standards)
+- [Non-Functional Requirements](#-non-functional-requirements)
+- [Getting Started](#-getting-started)
+- [Future Roadmap](#-future-roadmap-v20)
+- [Author](#-author)
 
-Operational Modules & System Architecture
+## 🚢 Project Overview
 
-User Roles & Access Control (RBAC)
+The **Port Management ERP System** provides centralized oversight and operational management across core maritime domains.
 
-Database Schema Summary
+Key capabilities include:
 
-Tech Stack & Standards
+- **Ship Lifecycle Management:** Track vessel arrivals, departures, operator assignments, and statuses such as Anchored, Docked, and Departed.
+- **Berth and Dock Scheduling:** Manage dock allocations and prevent scheduling conflicts across overlapping time windows.
+- **Cargo and Container Logistics:** Manage container classifications, cargo inventories, and cargo movement activities.
+- **Security and Compliance:** Support user identity management, access control, activity logging, and session management.
 
-Non-Functional Requirements
+## 🧩 Operational Modules
 
-Getting Started / Installation
+The application is organized into 11 core modules:
 
-Future Roadmap (v2.0)
+1. **Login and Authentication:** Provides a secure login interface and session management.
+2. **Dashboard:** Displays role-based operational summaries, statistics, and quick actions.
+3. **User Management:** Allows administrators to create, update, assign roles, and deactivate user accounts.
+4. **Ship Management:** Maintains vessel records, search functionality, pagination, and ship statuses.
+5. **Dock Management:** Displays dock availability, operational status, and maintenance information.
+6. **Dock Allocation:** Supports assigning ships to docks for specified time windows.
+7. **Container Management:** Maintains container records, types, vessel assignments, and associated cargo.
+8. **Cargo Management:** Tracks cargo descriptions, weights, inventory, and container associations.
+9. **Cargo Movement:** Records loading, unloading, and transfer activities with timestamps and handler details.
+10. **Security Log:** Tracks user sessions, login and logout timestamps, and session durations, with CSV export support.
+11. **Profile and Settings:** Supports account management and password updates.
 
-🚢 Project Overview
+## 👥 User Roles and Access Control (RBAC)
 
-The Port Management ERP provides real-time oversight and operational execution across core maritime domains:
+The system defines five user roles with responsibilities aligned to port operations.
 
-Ship Lifecycle: Track arrivals, departures, operator assignments, and statuses (Anchored, Docked, Departed).
+| Role | Responsibilities |
+|---|---|
+| **Administrator** | Manages user accounts, roles, platform configuration, and security logs. |
+| **Port Manager** | Oversees operational modules, compliance reporting, and audit logs. |
+| **Ship Operator** | Registers vessels, updates ship statuses, and associates containers. |
+| **Dock Manager** | Maintains dock records, availability, and dock allocations. |
+| **Cargo Handler** | Manages cargo inventory and records loading, unloading, and transfer activities. |
 
-Berth & Dock Scheduling: Real-time dock allocation management with conflict prevention for overlapping windows.
+Access to protected operations should be enforced through server-side role-based authorization.
 
-Cargo & Container Logistics: Container classification (Dry, Reefer, Open Top, Tank) and granular cargo movement tracking (Load, Unload, Transfer).
+## 🗄️ Database Design Summary
 
-Security & Compliance: Secure user identity management, activity logging, and robust session management.
+The relational database is designed around normalized entities and foreign key relationships, with **Third Normal Form (3NF)** as the target design standard.
 
-🧩 Operational Modules & System Architecture
+| Table | Purpose |
+|---|---|
+| `ROLE` | Defines system roles and access levels. |
+| `USER` | Stores user account information, password hashes, and role assignments. |
+| `SHIP` | Maintains vessel details, schedules, operators, and current statuses. |
+| `DOCK` | Stores dock identifiers, availability, and operational status. |
+| `DOCK_ALLOCATION` | Links ships to docks and records allocation time windows. |
+| `CONTAINER` | Stores container details, classifications, and vessel associations. |
+| `CARGO` | Maintains cargo inventory and container relationships. |
+| `CARGO_MOVEMENT` | Records chronological cargo handling events. |
+| `SECURITY_LOG` | Maintains user session and security activity records. |
 
-The application is structured around 11 core interface modules:
+**Data integrity:** Foreign key constraints and appropriate validation should be used to maintain consistent relationships between records.
 
-Login & Authentication: Secure gateway with encrypted password storage and session enforcement.
+## 🛠️ Technology Stack and Standards
 
-Dashboard: Role-tailored operational landing views providing stat cards and quick actions.
+### Technology Stack
 
-User Management: Admin-only interface for creating, updating, assigning roles, and deactivating accounts.
+- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5
+- **Backend Architecture:** Model-View-Controller (MVC), with API separation where applicable
+- **Database:** MySQL, PostgreSQL, or another compatible relational database
+- **Development Tools:** Configure according to the project's actual development environment
 
-Ship Management: Full vessel registry featuring search, pagination, and status management.
+> Update this section to match the technologies and tools implemented in the current version of the project.
 
-Dock Management: Visual dock status board displaying berth availability and maintenance indicators.
+### Design and Security References
 
-Dock Allocation: Multi-step workflow for assigning ships to docks for defined time windows.
+- **IEEE Std 830-1998:** Software Requirements Specification (SRS) guidance
+- **ISO/IEC 25010:2011:** Software product quality models
+- **OWASP:** Web application security guidance
 
-Container Management: Registry tracking container types, assignments, and associated cargo contents.
+These references serve as design and development guidelines; their inclusion does not imply formal certification or compliance.
 
-Cargo Management: Inventory tracker capturing cargo descriptions, weights, and container mapping.
+## 🔒 Non-Functional Requirements
 
-Cargo Movement: Audit log for recording individual load, unload, and transfer events with timestamp and handler attribution.
+The following are target requirements for the system, not verified production measurements.
 
-Security Log: Tabular audit view for tracking user sessions, login/logout timestamps, and duration (Exportable to CSV).
+### Security
+- HTTPS/TLS protection for network communication.
+- Secure password hashing using an appropriate algorithm such as bcrypt or Argon2.
+- Configurable idle session timeout, with a target of 30 minutes.
+- Server-side role-based access control.
+- Secure handling of application secrets and database credentials.
 
-Profile & Settings: Self-service user account management and password updates.
+### Performance
+- Target page load time of less than 2 seconds under defined test conditions.
+- Target support for 50 or more concurrent users.
+- Target indexed query response time below 500 milliseconds for selected operations.
 
-👤 User Roles & Access Control (RBAC)
+### Reliability
+- Target availability of 99.5% during operational hours.
+- Daily database backups with a target retention period of 30 days.
+- Recovery procedures to support data restoration and operational continuity.
 
-Role
+## 🚀 Getting Started
 
-Core System Responsibilities
+### Prerequisites
 
-Administrator
+Before running the application, ensure you have:
 
-Full system access; manages user accounts, roles, platform setup, and security logs.
+- Git installed.
+- The runtime, SDK, or application server required by the backend.
+- A supported relational database, if required.
+- The dependencies and development tools required by the project.
 
-Port Manager
+### Installation
 
-Oversees all operational modules, generates compliance reports, and views audit logs.
+**1. Clone the repository**
 
-Ship Operator
+```bash
+git clone https://github.com/addy5786/PortErp.git
+cd PortErp/Port_ERP
+```
 
-Registers incoming vessels, updates ship statuses, and associates containers.
+**2. Open the project**
 
-Dock Manager
+Import or open the project in the development environment appropriate for its framework.
 
-Maintains dock records, configures availability boards, and handles dock allocations.
+**3. Configure the database**
 
-Cargo Handler
+- Create the required database.
+- Execute the SQL schema and setup scripts provided by the project.
+- Configure the database connection settings.
 
-Records cargo inventory and logs granular loading/unloading movement events.
+**4. Configure application settings**
 
-🗄️ Database Design Summary
+Set the required environment variables or configuration properties, including database connection details and application secrets.
 
-The relational database schema is normalised to Third Normal Form (3NF) with enforced foreign key constraints:
+Never commit passwords, API keys, or other sensitive credentials to GitHub.
 
-ROLE: Defines system access levels.
+**5. Install dependencies and run the application**
 
-USER: Stores credentials (hashed via bcrypt/Argon2) and role bindings.
+Follow the build and startup instructions for the actual backend framework and frontend setup used by this project.
 
-SHIP: Tracks vessel schedules, operators, and current status.
+> Note: Exact database setup, dependency installation, and run commands depend on the implementation and the files included in the repository.
 
-DOCK: Manages berth codes and operational availability.
+## 🔮 Future Roadmap (v2.0)
 
-DOCK_ALLOCATION: Relates ships to docks across specific time windows.
+Potential improvements for future versions include:
 
-CONTAINER: Classifies standard container units linked to vessels.
+- Automated manifest generation and customs declaration PDF exports.
+- Email and SMS notifications for dock availability and vessel alerts.
+- Multi-facility support for managing multiple port locations.
+- Advanced analytics and historical operational trend visualization.
+- A mobile companion application for field-based cargo handlers.
 
-CARGO: Inventory items contained within specific units.
+## 👨‍💻 Author
 
-CARGO_MOVEMENT: Detailed chronological log of handling operations.
+**Adil Shaikh**
 
-SECURITY_LOG: Session history tracker for security compliance.
+- GitHub: [@addy5786](https://github.com/addy5786)
+- Project Repository: [PortErp](https://github.com/addy5786/PortErp)
 
-🛠️ Tech Stack & Standards
+## 📄 License
 
-Frontend: Bootstrap 5 UI Component Library, Responsive HTML5/CSS3, JavaScript.
+A license has not yet been specified. Add a suitable `LICENSE` file before distributing the project for reuse or modification.
 
-Backend Architecture: Modular Model-View-Controller (MVC) with a clear API separation layer.
+---
 
-Database Management System: Relational DBMS (MySQL / PostgreSQL / Equivalent).
+**Port Management ERP System v1.0**
 
-Compliance & Guidelines:
-
-IEEE Std 830-1998 (SRS Standards)
-
-ISO/IEC 25010:2011 (Quality Requirements)
-
-OWASP Security Guidelines for Web Applications
-
-🔒 Non-Functional Requirements
-
-Security: Strict HTTPS/TLS 1.2+ enforcement, cryptographic password hashing, automated 30-minute idle session timeouts, and server-side RBAC validation.
-
-Performance: Target page load under 2 seconds; support for $\ge 50$ concurrent users; indexed query response times under 500ms.
-
-Reliability: Target 99.5% uptime during operational hours (06:00 – 22:00 local time) with daily automated database backups retained for 30 days.
-
-🚀 Getting Started / Installation
-
-Clone the Repository:
-
-git clone https://github.com/your-username/port-management-erp.git
-cd port-management-erp
-
-
-Database Setup:
-
-Provision a relational database (MySQL/PostgreSQL).
-
-Execute the schema creation scripts matching the 3NF database layout specifications.
-
-Configure Environment Variables:
-
-Set up database connection strings, application secrets, and server ports in your .env configuration file.
-
-Run the Application:
-
-Launch the backend server and serve the frontend files through a secure web server.
-
-🔮 Future Roadmap (v2.0)
-
-Automated manifest generation and customs declaration PDF exports.
-
-Real-time push notifications (email/SMS) for dock availability and vessel alerts.
-
-Multi-facility support for port networks spanning multiple geographic locations.
-
-Advanced analytics dashboard with historical trend visualisation.
-
-Mobile companion application tailored for field-based Cargo Handlers.
-
-Port Management ERP v1.0 — Digitising and streamlining maritime logistics.
+*Digitizing and streamlining maritime logistics through centralized operational management.*
